@@ -3,6 +3,7 @@ import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import pokeballImage from "../images/pokeball.png";
 
 import Pokemon from "./Pokemon";
+import Modal from "./Modal";
 
 const PokemonList = () => {
     const url = "https://pokeapi.co/api/v2/pokemon?limit=20";
@@ -10,6 +11,10 @@ const PokemonList = () => {
     const [pageIndex, setPageIndex] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const [pokemonList, setPokemonList] = useState([]);
+    const [pokemonModal, setPokemonModal] = useState({
+        show: false,
+        pokemon: {},
+    });
 
     // set type
     const setTypeFilter = (chosenType) => {
@@ -68,100 +73,115 @@ const PokemonList = () => {
         }
     };
 
+    const showMoreInfo = (pokemon = {}) => {
+        if (pokemonModal.show === true) {
+            setPokemonModal({ show: false, pokemon: {} });
+        } else {
+            setPokemonModal({ show: true, pokemon: { pokemon } });
+        }
+    };
+
     // render if type is other than ALL
     if (type !== "all") {
         return (
-            <section className="page pokemon-list-page">
-                <div className="left-column">
-                    <Filter setTypeFilter={setTypeFilter} />
-                </div>
-                <div className="right-column">
-                    <div className="list-container">
-                        {isLoading ? (
-                            <p>Loading</p>
-                        ) : (
-                            pokemonList.pokemon.map((pokemon, index) => {
-                                if (
-                                    index > pageIndex * 20 - 1 ||
-                                    index < (pageIndex - 1) * 20
-                                )
-                                    return;
-                                return (
-                                    <Pokemon key={index} {...pokemon.pokemon} />
-                                );
-                            })
-                        )}
+            <>
+                {pokemonModal.show ? (
+                    <Modal
+                        pokemon={pokemonModal.pokemon}
+                        showMoreInfo={showMoreInfo}
+                    ></Modal>
+                ) : (
+                    <></>
+                )}
+                <section className="page pokemon-list-page">
+                    <div className="left-column">
+                        <Filter setTypeFilter={setTypeFilter} />
                     </div>
-                    <div className="next-previous-container">
-                        <FaChevronLeft
-                            className="nav-left"
-                            onClick={() => handlePrevious()}
-                        />
-                        <span>{pageIndex}</span>
-                        <FaChevronRight
-                            className="nav-right"
-                            onClick={() => handleNext()}
-                        />
+                    <div className="right-column">
+                        <div className="list-container">
+                            {isLoading ? (
+                                <p>Loading</p>
+                            ) : (
+                                pokemonList.pokemon.map((pokemon, index) => {
+                                    if (
+                                        index > pageIndex * 20 - 1 ||
+                                        index < (pageIndex - 1) * 20
+                                    )
+                                        return;
+                                    return (
+                                        <Pokemon
+                                            key={index}
+                                            {...pokemon.pokemon}
+                                            showMoreInfo={showMoreInfo}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
+                        <div className="next-previous-container">
+                            <FaChevronLeft
+                                className="nav-left"
+                                onClick={() => handlePrevious()}
+                            />
+                            <span>{pageIndex}</span>
+                            <FaChevronRight
+                                className="nav-right"
+                                onClick={() => handleNext()}
+                            />
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </>
         );
-
-        // return (
-        //     <section className="page pokemon-list-page">
-        //         <div className="left-column">
-        //             <Filter setTypeFilter={setTypeFilter} />
-        //         </div>
-        //         <p>aaa</p>
-        //         {console.log("is loading?: ", isLoading)}
-        //         {console.log("type in return:", type)}
-        //         {console.log(pokemonList)}
-        //     </section>
-        // );
     }
 
     //render if type is ALL
     if (type === "all") {
         return (
-            <section className="page pokemon-list-page">
-                <div className="left-column">
-                    <Filter setTypeFilter={setTypeFilter} />
-                </div>
-                <div className="right-column">
-                    <div className="list-container">
-                        {isLoading ? (
-                            <p>Loading</p>
-                        ) : (
-                            pokemonList.results.map((pokemon, index) => {
-                                return <Pokemon key={index} {...pokemon} />;
-                            })
-                        )}
+            <>
+                {pokemonModal.show ? (
+                    <Modal
+                        pokemon={pokemonModal.pokemon}
+                        showMoreInfo={showMoreInfo}
+                    ></Modal>
+                ) : (
+                    <></>
+                )}
+                <section className="page pokemon-list-page">
+                    <div className="left-column">
+                        <Filter setTypeFilter={setTypeFilter} />
                     </div>
-                    <div className="next-previous-container">
-                        <FaChevronLeft
-                            className="nav-left"
-                            onClick={() => handlePrevious()}
-                        />
-                        <span>{pageIndex}</span>
-                        <FaChevronRight
-                            className="nav-right"
-                            onClick={() => handleNext()}
-                        />
+                    <div className="right-column">
+                        <div className="list-container">
+                            {isLoading ? (
+                                <p>Loading</p>
+                            ) : (
+                                pokemonList.results.map((pokemon, index) => {
+                                    return (
+                                        <Pokemon
+                                            key={index}
+                                            {...pokemon}
+                                            showMoreInfo={showMoreInfo}
+                                        />
+                                    );
+                                })
+                            )}
+                        </div>
+                        <div className="next-previous-container">
+                            <FaChevronLeft
+                                className="nav-left"
+                                onClick={() => handlePrevious()}
+                            />
+                            <span>{pageIndex}</span>
+                            <FaChevronRight
+                                className="nav-right"
+                                onClick={() => handleNext()}
+                            />
+                        </div>
                     </div>
-                </div>
-            </section>
+                </section>
+            </>
         );
-        // return (
-        //     <section className="page pokemon-list-page">
-        //         <div className="left-column">
-        //             <Filter setTypeFilter={setTypeFilter} />
-        //         </div>
-        //         <p>aaa</p>
-        //         {console.log("is loading?: ", isLoading)}
-        //         {console.log("type in return:", type)}
-        //         {console.log(pokemonList)}
-        //     </section>
-        // );
     }
 };
 

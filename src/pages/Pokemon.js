@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const Pokemon = ({ name, url }) => {
+const Pokemon = ({ name, url, showMoreInfo }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [pokemon, setPokemon] = useState([]);
 
@@ -24,7 +24,7 @@ const Pokemon = ({ name, url }) => {
     }
 
     return (
-        <div className="pokemon-card">
+        <div className="pokemon-card" onClick={() => showMoreInfo(pokemon)}>
             <div className="pokemon-desc">
                 <div className="pokemon-name">
                     <h4>{name}</h4>
