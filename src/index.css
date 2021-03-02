@@ -561,9 +561,44 @@
     .pokemon-list-page .right-column .next-previous-container span {
         font-size: 25px;
     }
+
+    /* about */
+
+    .about-page .title-container h1 {
+        font-size: 55px;
+    }
+
+    .about-page .about-desc p {
+        font-size: 20px;
+    }
+
+    .about-page .about-desc .contact-email {
+        font-size: 30px;
+    }
+    .about-page .about-desc .api-desc {
+        font-size: 14px;
+        padding: 10px 30px;
+        text-align: justify;
+        margin-bottom: 20px;
+    }
+
+    .about-page .about-desc p .alert {
+        font-size: 0.8rem;
+    }
 }
 
 @media (max-width: 1024px) {
+    /* HOME */
+
+    .home-page .home-title {
+        font-size: 35px;
+    }
+
+    .home-page .home-title .icon {
+        margin-left: 20px;
+    }
+
+    /* filter */
     .input-control label {
         display: block;
         font-size: 13px;
@@ -585,7 +620,6 @@
     /* right column with pokemon list */
 
     .pokemon-list-page .right-column .list-container .pokemon-card {
-        /* clip-path: polygon(0 0, 20% 0, 20% 8%, 100% 8%, 100% 100%, 0 100%, 0 0); */
         margin: 5px;
         width: 180px;
         height: 280px;
@@ -642,9 +676,43 @@
     .pokemon-list-page .right-column .next-previous-container span {
         font-size: 23px;
     }
+
+    /* about */
+
+    .about-page .title-container h1 {
+        font-size: 40px;
+    }
+
+    .about-page .about-desc p {
+        font-size: 18px;
+    }
+
+    .about-page .about-desc .contact-email {
+        font-size: 25px;
+        margin-bottom: 150px;
+    }
+    .about-page .about-desc .api-desc {
+        font-size: 12px;
+    }
+
+    .about-page .about-desc p .alert {
+        font-size: 0.6rem;
+    }
 }
 
 @media (max-width: 768px) {
+    /* HOME */
+
+    .home-page .home-title {
+        font-size: 30px;
+    }
+
+    .home-page .home-title .icon {
+        margin-left: 10px;
+    }
+
+    /* navbar */
+
     .navbar {
         display: flex;
     }
@@ -734,7 +802,62 @@
     .pokemon-list-page .right-column {
         width: 100%;
     }
+
+    /* about */
+
+    .about-page .title-container h1 {
+        font-size: 30px;
+    }
+
+    .about-page .about-desc p {
+        font-size: 13px;
+    }
+
+    .about-page .about-desc .contact-email {
+        font-size: 17px;
+        margin-bottom: 100px;
+    }
+    .about-page .about-desc .api-desc {
+        font-size: 8px;
+    }
+
+    .about-page .about-desc p .alert {
+        top: 30px;
+        font-size: 0.4rem;
+    }
 }
 
 @media (max-width: 480px) {
+    /* HOME */
+
+    .home-page .home-title {
+        font-size: 25px;
+    }
+
+    .home-page .home-title .icon {
+        margin-left: 10px;
+    }
+
+    /* about */
+
+    .about-page .title-container h1 {
+        font-size: 20px;
+    }
+
+    .about-page .about-desc p {
+        font-size: 10px;
+    }
+
+    .about-page .about-desc .contact-email {
+        font-size: 13px;
+        margin-bottom: 80px;
+    }
+    .about-page .about-desc .api-desc {
+        font-size: 7px;
+    }
+
+    .about-page .about-desc p .alert {
+        top: 30px;
+        font-size: 0.4rem;
+    }
 }

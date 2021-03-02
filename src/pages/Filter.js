@@ -27,7 +27,7 @@ const Filter = ({ setTypeFilter, setSearchName }) => {
             <div className="filter-img-wrapper">
                 <img className="pokeball-img" src={pokeballImage} alt="" />
             </div>
-            <form className="filter-form">
+            <form className="filter-form" onSubmit={(e) => e.preventDefault()}>
                 <div className="input-control">
                     <label htmlFor="name-search">Pokemon name:</label>
                     <input
