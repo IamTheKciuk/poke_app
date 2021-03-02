@@ -31,6 +31,12 @@ const About = () => {
                     karolkwit96@gmail.com
                     {alert && <p className="alert">copied to clipboard</p>}
                 </p>
+                <p className="api-desc">
+                    This app is working on RESTful API named "PokeAPI". Every
+                    data as names, stats or photos are from their database.
+                    Sometimes API can't deliver needed data so you can see some
+                    cards that can't load.
+                </p>
                 <p>Thanks for visiting my app!</p>
             </div>
         </section>

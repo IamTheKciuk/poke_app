@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa";
 
 const Navbar = () => {
+    const [showLinks, setShowLinks] = useState(false);
     const [active, setActive] = useState("");
 
     useEffect(() => {
@@ -21,30 +23,38 @@ const Navbar = () => {
 
     return (
         <nav className="navbar">
-            <Link
-                to="/"
-                className="nav-link"
-                id="home"
-                onClick={() => setActive("home")}
+            <div className="links-container">
+                <Link
+                    to="/"
+                    className="nav-link"
+                    id="home"
+                    onClick={() => setActive("home")}
+                >
+                    Home
+                </Link>
+                <Link
+                    to="/pokemon-list"
+                    className="nav-link"
+                    id="pokemon-list"
+                    onClick={() => setActive("pokemon-list")}
+                >
+                    Pokemon list
+                </Link>
+                <Link
+                    to="/about"
+                    className="nav-link"
+                    id="about"
+                    onClick={() => setActive("about")}
+                >
+                    About
+                </Link>
+            </div>
+            <button
+                className="nav-toggle"
+                onClick={() => setShowLinks(!showLinks)}
             >
-                Home
-            </Link>
-            <Link
-                to="/pokemon-list"
-                className="nav-link"
-                id="pokemon-list"
-                onClick={() => setActive("pokemon-list")}
-            >
-                Pokemon list
-            </Link>
-            <Link
-                to="/about"
-                className="nav-link"
-                id="about"
-                onClick={() => setActive("about")}
-            >
-                About
-            </Link>
+                <FaBars />
+            </button>
         </nav>
     );
 };

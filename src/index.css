@@ -139,33 +139,44 @@
 }
 
 /* NAVBAR */
+.nav-toggle {
+    display: none;
+}
+
 .navbar {
     position: fixed;
     z-index: 999;
     top: 0;
     left: 0;
     display: flex;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
     height: var(--nav-height);
     width: 100%;
     background: var(--clr-blue);
 }
 
+.navbar .links-container {
+    width: 60%;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
 .navbar .nav-link {
     position: relative;
     color: var(--clr-light-yellow);
-    font-size: 30px;
+    font-size: 25px;
     text-decoration: none;
 }
 
 .navbar .nav-link.active::after {
     content: "";
     position: absolute;
-    width: 130%;
-    height: 10px;
+    width: 110%;
+    height: 5px;
     background: var(--clr-light-yellow);
-    bottom: -17px;
+    bottom: -21px;
     left: 50%;
     transform: translateX(-50%);
 }
@@ -243,6 +254,12 @@
     margin-bottom: 300px;
     cursor: pointer;
 }
+.about-page .about-desc .api-desc {
+    font-size: 15px;
+    padding: 10px 30px;
+    text-align: justify;
+    margin-bottom: 20px;
+}
 
 .about-page .about-desc p .alert {
     position: absolute;
@@ -269,7 +286,7 @@
 
 /* FILTER */
 .pokemon-list-page .left-column {
-    width: 20%;
+    width: 25%;
     height: calc(100% - var(--nav-height));
     position: fixed;
     top: var(--nav-height);
@@ -287,7 +304,7 @@
 
 .filter-img-wrapper {
     width: 70%;
-    max-width: 250px;
+    max-width: 200px;
 }
 
 .pokeball-img {
@@ -310,6 +327,17 @@
     display: block;
     font-size: 16px;
     font-weight: 500;
+}
+
+.input-control .name-input {
+    font-size: 16px;
+    font-weight: 400;
+    padding: 8px 12px;
+    border: 2px solid black;
+    border-radius: 5px;
+    outline: none;
+    width: 200px;
+    margin-bottom: 30px;
 }
 
 .select {
@@ -405,15 +433,6 @@
     text-transform: capitalize;
 }
 
-/* .pokemon-list-page
-    .right-column
-    .list-container
-    .pokemon-card
-    .pokemon-desc
-    .pokemon-name
-    h4 {
-} */
-
 .pokemon-list-page
     .right-column
     .list-container
@@ -477,4 +496,198 @@
 .pokemon-list-page .right-column .next-previous-container span {
     font-size: 30px;
     margin: 0 10px;
+}
+
+/* ----------------------------- MEDIA QUERIES ------------------------------------------ */
+
+@media (max-width: 1200px) {
+    .input-control label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .select {
+        font-size: 14px;
+        padding: 8px 12px;
+        width: 170px;
+    }
+
+    .submit-btn {
+        width: 180px;
+        height: 45px;
+        font-size: 1.4rem;
+    }
+
+    /* right column with pokemon list */
+
+    .pokemon-list-page .right-column .list-container .pokemon-card {
+        /* clip-path: polygon(0 0, 20% 0, 20% 8%, 100% 8%, 100% 100%, 0 100%, 0 0); */
+        margin: 5px;
+        width: 200px;
+        height: 300px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .pokemon-name {
+        font-size: 18px;
+        height: 40px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .img-wrapper {
+        height: 150px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .img-wrapper
+        img {
+        height: 140px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .pokemon-type {
+        font-size: 13px;
+        height: 40px;
+    }
+
+    .pokemon-list-page .right-column .next-previous-container {
+        height: 50px;
+    }
+
+    .pokemon-list-page .right-column .next-previous-container .nav-left,
+    .pokemon-list-page .right-column .next-previous-container .nav-right {
+        font-size: 25px;
+    }
+
+    .pokemon-list-page .right-column .next-previous-container span {
+        font-size: 25px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .input-control label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .select {
+        font-size: 13px;
+        padding: 8px 12px;
+        width: 170px;
+    }
+
+    .submit-btn {
+        width: 150px;
+        height: 40px;
+        font-size: 1.2rem;
+    }
+
+    /* right column with pokemon list */
+
+    .pokemon-list-page .right-column .list-container .pokemon-card {
+        /* clip-path: polygon(0 0, 20% 0, 20% 8%, 100% 8%, 100% 100%, 0 100%, 0 0); */
+        margin: 5px;
+        width: 180px;
+        height: 280px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .pokemon-name {
+        font-size: 16px;
+        height: 35px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .img-wrapper {
+        height: 130px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .img-wrapper
+        img {
+        height: 120px;
+    }
+
+    .pokemon-list-page
+        .right-column
+        .list-container
+        .pokemon-card
+        .pokemon-desc
+        .pokemon-type {
+        font-size: 13px;
+        height: 40px;
+    }
+
+    .pokemon-list-page .right-column .next-previous-container {
+        height: 50px;
+    }
+
+    .pokemon-list-page .right-column .next-previous-container .nav-left,
+    .pokemon-list-page .right-column .next-previous-container .nav-right {
+        font-size: 23px;
+    }
+
+    .pokemon-list-page .right-column .next-previous-container span {
+        font-size: 23px;
+    }
+}
+
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+        margin: 0 20px;
+        color: white;
+        background: transparent;
+    }
+
+    /* .navbar {
+    } */
+
+    .navbar .nav-link {
+        display: none;
+    }
+
+    .navbar .nav-link.active::after {
+        content: "";
+        position: absolute;
+        width: 130%;
+        height: 10px;
+        background: var(--clr-light-yellow);
+        bottom: -17px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+}
+
+@media (max-width: 480px) {
 }

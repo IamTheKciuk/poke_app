@@ -4,13 +4,15 @@ import pokeballImage from "../images/pokeball.png";
 
 import Pokemon from "./Pokemon";
 import Modal from "./Modal";
+const url = "https://pokeapi.co/api/v2/pokemon?limit=1118";
 
 const PokemonList = () => {
-    const url = "https://pokeapi.co/api/v2/pokemon?limit=20";
-    const [type, setType] = useState("all");
-    const [pageIndex, setPageIndex] = useState(1);
     const [isLoading, setIsLoading] = useState(true);
     const [pokemonList, setPokemonList] = useState([]);
+    const [filteredPokemonList, setFilteredPokemonList] = useState([]);
+    const [type, setType] = useState("all");
+    const [isFilter, setIsFilter] = useState({ show: false, filter: "" });
+    const [pageIndex, setPageIndex] = useState(1);
     const [pokemonModal, setPokemonModal] = useState({
         show: false,
         pokemon: {},
@@ -21,7 +23,7 @@ const PokemonList = () => {
         setPageIndex(1);
 
         if (chosenType === "all") {
-            fetchData(`https://pokeapi.co/api/v2/pokemon?limit=20`);
+            fetchData(`https://pokeapi.co/api/v2/pokemon?limit=1118`);
         }
 
         if (chosenType !== "all") {
@@ -39,6 +41,7 @@ const PokemonList = () => {
             const response = await fetch(url);
             const pokemons = await response.json();
             setPokemonList(pokemons);
+
             setIsLoading(false);
         } catch {}
     };
@@ -50,22 +53,29 @@ const PokemonList = () => {
 
     // handle next page
     const handleNext = () => {
-        if (type === "all" && pokemonList.next) {
-            setPageIndex(pageIndex + 1);
-            fetchData(pokemonList.next);
-        }
+        if (isFilter.show) {
+            if (type === "all" && pageIndex < filteredPokemonList.length / 20) {
+                setPageIndex(pageIndex + 1);
+            }
 
-        if (type !== "all" && pageIndex < pokemonList.pokemon.length / 20) {
-            console.log(pokemonList.pokemon.length);
-            setPageIndex(pageIndex + 1);
+            if (type !== "all" && pageIndex < filteredPokemonList.length / 20) {
+                setPageIndex(pageIndex + 1);
+            }
+        } else {
+            if (type === "all" && pageIndex < pokemonList.results.length / 20) {
+                setPageIndex(pageIndex + 1);
+            }
+
+            if (type !== "all" && pageIndex < pokemonList.pokemon.length / 20) {
+                setPageIndex(pageIndex + 1);
+            }
         }
     };
 
     // handle previous page
     const handlePrevious = () => {
-        if (type === "all" && pokemonList.previous) {
+        if (type === "all" && pageIndex > 1) {
             setPageIndex(pageIndex - 1);
-            fetchData(pokemonList.previous);
         }
 
         if (type !== "all" && pageIndex > 1) {
@@ -73,12 +83,37 @@ const PokemonList = () => {
         }
     };
 
+    // displaying modal with pokemon info
     const showMoreInfo = (pokemon = {}) => {
         if (pokemonModal.show === true) {
             setPokemonModal({ show: false, pokemon: {} });
         } else {
             setPokemonModal({ show: true, pokemon: { pokemon } });
         }
+    };
+
+    // handling searching by name
+    const setSearchName = (isFiltering = false, filter = "") => {
+        setIsFilter({ show: isFiltering, filter: filter });
+        setPageIndex(1);
+        let filteredList = [];
+
+        if (type === "all") {
+            if (filter) {
+                filteredList = pokemonList.results.filter((item) => {
+                    if (item.name.indexOf(filter.toLowerCase()) > -1)
+                        return item;
+                });
+            }
+        } else {
+            if (filter) {
+                filteredList = pokemonList.pokemon.filter((item) => {
+                    if (item.pokemon.name.indexOf(filter.toLowerCase()) > -1)
+                        return item;
+                });
+            }
+        }
+        setFilteredPokemonList(filteredList);
     };
 
     // render if type is other than ALL
@@ -95,19 +130,39 @@ const PokemonList = () => {
                 )}
                 <section className="page pokemon-list-page">
                     <div className="left-column">
-                        <Filter setTypeFilter={setTypeFilter} />
+                        <Filter
+                            setTypeFilter={setTypeFilter}
+                            setSearchName={setSearchName}
+                        />
                     </div>
                     <div className="right-column">
                         <div className="list-container">
                             {isLoading ? (
                                 <p>Loading</p>
+                            ) : isFilter.show ? (
+                                filteredPokemonList.map((pokemon, index) => {
+                                    if (
+                                        index > pageIndex * 20 - 1 ||
+                                        index < (pageIndex - 1) * 20
+                                    ) {
+                                        return;
+                                    }
+                                    return (
+                                        <Pokemon
+                                            key={index}
+                                            {...pokemon.pokemon}
+                                            showMoreInfo={showMoreInfo}
+                                        />
+                                    );
+                                })
                             ) : (
                                 pokemonList.pokemon.map((pokemon, index) => {
                                     if (
                                         index > pageIndex * 20 - 1 ||
                                         index < (pageIndex - 1) * 20
-                                    )
+                                    ) {
                                         return;
+                                    }
                                     return (
                                         <Pokemon
                                             key={index}
@@ -149,14 +204,39 @@ const PokemonList = () => {
                 )}
                 <section className="page pokemon-list-page">
                     <div className="left-column">
-                        <Filter setTypeFilter={setTypeFilter} />
+                        <Filter
+                            setTypeFilter={setTypeFilter}
+                            setSearchName={setSearchName}
+                        />
                     </div>
                     <div className="right-column">
                         <div className="list-container">
                             {isLoading ? (
                                 <p>Loading</p>
+                            ) : isFilter.show ? (
+                                filteredPokemonList.map((pokemon, index) => {
+                                    if (
+                                        index > pageIndex * 20 - 1 ||
+                                        index < (pageIndex - 1) * 20
+                                    ) {
+                                        return;
+                                    }
+                                    return (
+                                        <Pokemon
+                                            key={index}
+                                            {...pokemon}
+                                            showMoreInfo={showMoreInfo}
+                                        />
+                                    );
+                                })
                             ) : (
                                 pokemonList.results.map((pokemon, index) => {
+                                    if (
+                                        index > pageIndex * 20 - 1 ||
+                                        index < (pageIndex - 1) * 20
+                                    ) {
+                                        return;
+                                    }
                                     return (
                                         <Pokemon
                                             key={index}
@@ -186,28 +266,51 @@ const PokemonList = () => {
 };
 
 // --- filter component
-const Filter = ({ setTypeFilter }) => {
+const Filter = ({ setTypeFilter, setSearchName }) => {
     const [type, setType] = useState("choose");
+    const [nameFilter, setNameFilter] = useState("");
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (type !== "choose") setTypeFilter(type);
-    };
+    useEffect(() => {
+        if (nameFilter) {
+            setSearchName(true, nameFilter);
+        } else {
+            setSearchName();
+        }
+    }, [nameFilter]);
+
+    useEffect(() => {
+        if (type !== "choose") {
+            setTypeFilter(type);
+        }
+
+        setNameFilter("");
+    }, [type]);
 
     return (
         <div className="filter-container">
             <div className="filter-img-wrapper">
                 <img className="pokeball-img" src={pokeballImage} alt="" />
             </div>
-            <form className="filter-form" onSubmit={handleSubmit}>
+            <form className="filter-form">
                 <div className="input-control">
+                    <label htmlFor="name-search">Pokemon name:</label>
+                    <input
+                        name="name-search"
+                        type="text"
+                        className="name-input"
+                        placeholder="e.g. Pikachu"
+                        value={nameFilter}
+                        onChange={(e) => setNameFilter(e.target.value)}
+                    />
                     <label htmlFor="type">Choose Pokemon type:</label>
                     <select
                         name="type"
                         id="type"
                         className="select"
                         value={type}
-                        onChange={(e) => setType(e.target.value)}
+                        onChange={(e) => {
+                            setType(e.target.value);
+                        }}
                     >
                         <option defaultValue value="all">
                             All
@@ -231,9 +334,6 @@ const Filter = ({ setTypeFilter }) => {
                         <option value="fairy">Fairy</option>
                     </select>
                 </div>
-                <button className="submit-btn" type="submit">
-                    Search
-                </button>
             </form>
         </div>
     );

@@ -4,6 +4,7 @@ const Pokemon = ({ name, url, showMoreInfo }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [pokemon, setPokemon] = useState([]);
 
+    //fetch pokemon
     const fetchData = async () => {
         setIsLoading(true);
 
@@ -15,9 +16,10 @@ const Pokemon = ({ name, url, showMoreInfo }) => {
         } catch {}
     };
 
+    // fetch data at first render
     useEffect(() => {
         fetchData();
-    }, []);
+    }, [url]);
 
     if (isLoading) {
         return <div className="pokemon-card">Loading...</div>;
@@ -36,6 +38,7 @@ const Pokemon = ({ name, url, showMoreInfo }) => {
                     />
                 </div>
                 <div className="pokemon-type">
+                    {/* draw all types */}
                     {pokemon.types.map((type, index) => {
                         return <p key={index}>{type.type.name}</p>;
                     })}
