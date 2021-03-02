@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { Link } from "react-router-dom";
-import { FaBars } from "react-icons/fa";
+import { TiThMenu } from "react-icons/ti";
 
 const Navbar = () => {
     const [showLinks, setShowLinks] = useState(false);
     const [active, setActive] = useState("");
+    const linksContainerRef = useRef(null);
 
     useEffect(() => {
         let pathname = window.location.pathname.substring(1);
@@ -21,14 +22,25 @@ const Navbar = () => {
         };
     }, [active]);
 
+    useEffect(() => {
+        if (showLinks) {
+            linksContainerRef.current.style.height = `200px`;
+        } else {
+            linksContainerRef.current.style.height = "0px";
+        }
+    }, [showLinks]);
+
     return (
         <nav className="navbar">
-            <div className="links-container">
+            <div className="links-container" ref={linksContainerRef}>
                 <Link
                     to="/"
                     className="nav-link"
                     id="home"
-                    onClick={() => setActive("home")}
+                    onClick={() => {
+                        setActive("home");
+                        setShowLinks(!showLinks);
+                    }}
                 >
                     Home
                 </Link>
@@ -36,7 +48,10 @@ const Navbar = () => {
                     to="/pokemon-list"
                     className="nav-link"
                     id="pokemon-list"
-                    onClick={() => setActive("pokemon-list")}
+                    onClick={() => {
+                        setActive("pokemon-list");
+                        setShowLinks(!showLinks);
+                    }}
                 >
                     Pokemon list
                 </Link>
@@ -44,17 +59,20 @@ const Navbar = () => {
                     to="/about"
                     className="nav-link"
                     id="about"
-                    onClick={() => setActive("about")}
+                    onClick={() => {
+                        setActive("about");
+                        setShowLinks(!showLinks);
+                    }}
                 >
                     About
                 </Link>
             </div>
-            <button
+            <div
                 className="nav-toggle"
                 onClick={() => setShowLinks(!showLinks)}
             >
-                <FaBars />
-            </button>
+                <TiThMenu className="nav-icon" />
+            </div>
         </nav>
     );
 };
